@@ -1,0 +1,1581 @@
+/* =====================================
+   ROBOMIND AI - FUTURISTIC INTERFACE
+   ===================================== */
+
+:root {
+    --bg: #080d1b;
+    --panel: #10182a;
+    --panel-light: #151f35;
+    --cyan: #40e8ff;
+    --blue: #5285ff;
+    --purple: #9c72ff;
+    --text: #f2f6ff;
+    --muted: #91a0bd;
+    --border: rgba(145, 170, 220, 0.16);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(ellipse at 12% 20%, #15264a 0, transparent 35%),
+        radial-gradient(ellipse at 90% 85%, #21163f 0, transparent 32%),
+        var(--bg);
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.app {
+    width: min(1440px, 100%);
+    min-height: 100vh;
+    margin: auto;
+    padding: 24px 36px 16px;
+}
+
+/* HEADER */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0 0 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.brand-icon,
+.chat-heading-avatar,
+.message-avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    font-weight: 800;
+    color: #071322;
+    background: linear-gradient(135deg, var(--cyan), #658cff);
+    box-shadow: 0 0 24px #40e8ff20;
+}
+
+.brand-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    font-size: 24px;
+}
+
+.brand-text h1 {
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: 0.5px;
+}
+
+.brand-text p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    background: #111a2d;
+    color: #c9d6ec;
+    font-size: 12px;
+}
+
+.status-dot,
+.small-status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #42e8a5;
+    box-shadow: 0 0 10px #42e8a5;
+}
+
+/* MAIN LAYOUT */
+
+.workspace {
+    display: grid;
+    grid-template-columns: minmax(300px, 0.85fr) minmax(420px, 1.15fr);
+    gap: 24px;
+    margin-top: 26px;
+}
+
+.robot-panel,
+.chat-panel {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    background: linear-gradient(145deg, #121c30f2, #0d1425f5);
+    box-shadow: 0 24px 70px #00000025;
+}
+
+.robot-panel {
+    padding: 24px;
+}
+
+.robot-panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.section-label,
+.robot-greeting,
+.input-label {
+    color: #8ca4ca;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.robot-live-indicator {
+    padding: 5px 9px;
+    border: 1px solid #40e8ff38;
+    border-radius: 20px;
+    color: var(--cyan);
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+/* ROBOT STAGE */
+
+.robot-stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 365px;
+    margin: 8px 0 0;
+    isolation: isolate;
+    perspective: 900px;
+}
+
+.robot-glow {
+    position: absolute;
+    z-index: -2;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: #3288ff20;
+    filter: blur(45px);
+    animation: glowPulse 4s ease-in-out infinite;
+}
+
+.robot-platform {
+    position: absolute;
+    bottom: 12px;
+    width: 220px;
+    height: 36px;
+    border: 1px solid #40e8ff45;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, #40e8ff25, #253d7210 65%, transparent 70%);
+    box-shadow: 0 0 28px #40e8ff20;
+}
+
+/* ORIGINAL FULL-BODY CSS ROBOT */
+
+.robot-full {
+    position: relative;
+    width: 230px;
+    height: 330px;
+    flex-shrink: 0;
+    animation: robotFloat 3.5s ease-in-out infinite;
+    transform-style: preserve-3d;
+}
+
+/* ROBOT HEAD */
+
+.robot-antenna {
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    left: 111px;
+    width: 8px;
+    height: 27px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #7588a5, #f3fbff, #6c7e9c);
+}
+
+.robot-antenna span {
+    position: absolute;
+    top: -8px;
+    left: -4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 16px var(--cyan);
+    animation: antennaPulse 1.8s infinite;
+}
+
+.robot-head {
+    position: absolute;
+    z-index: 5;
+    top: 24px;
+    left: 61px;
+    width: 108px;
+    height: 81px;
+    border: 2px solid #a8c7e9;
+    border-radius: 30px 30px 25px 25px;
+    background: linear-gradient(135deg, #f4f8ff 0%, #b8c7da 28%, #657a9a 70%, #dce9f8 100%);
+    box-shadow:
+        inset 0 3px 5px #ffffff,
+        inset 0 -6px 10px #31435e,
+        0 0 22px #40e8ff15;
+}
+
+.robot-ear {
+    position: absolute;
+    top: 23px;
+    width: 10px;
+    height: 29px;
+    border: 2px solid #c8e2fa;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #71849f, #d7e6f8);
+}
+
+.robot-ear.left {
+    left: -10px;
+}
+
+.robot-ear.right {
+    right: -10px;
+}
+
+.robot-face {
+    position: absolute;
+    inset: 12px 9px 10px;
+    overflow: hidden;
+    border: 1px solid #40e8ff55;
+    border-radius: 19px;
+    background: linear-gradient(145deg, #0b203b, #07101f);
+    box-shadow: inset 0 0 16px #40e8ff15;
+}
+
+.robot-eyes {
+    display: flex;
+    justify-content: center;
+    gap: 23px;
+    margin-top: 20px;
+}
+
+.robot-eyes span {
+    display: block;
+    width: 13px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan);
+    animation: eyeGlow 3s infinite;
+}
+
+.robot-mouth {
+    width: 24px;
+    height: 5px;
+    margin: 12px auto 0;
+    border-radius: 5px;
+    background: #40e8ff;
+    box-shadow: 0 0 9px #40e8ff80;
+}
+
+/* NECK AND TORSO */
+
+.robot-neck {
+    position: absolute;
+    z-index: 2;
+    top: 100px;
+    left: 103px;
+    width: 24px;
+    height: 23px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #677b98, #e4edf9, #7d91ac);
+}
+
+.robot-torso {
+    position: absolute;
+    z-index: 3;
+    top: 116px;
+    left: 66px;
+    width: 100px;
+    height: 105px;
+    border: 2px solid #a9c6e5;
+    border-radius: 27px 27px 22px 22px;
+    background: linear-gradient(105deg, #7186a4, #eef5ff 35%, #a6bad2 62%, #586f90);
+    box-shadow:
+        inset 0 4px 6px #ffffff,
+        inset 0 -9px 13px #526884;
+}
+
+.robot-shoulder {
+    position: absolute;
+    top: 5px;
+    width: 27px;
+    height: 25px;
+    border: 2px solid #c9e4fa;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f3f8ff, #788eac);
+}
+
+.robot-shoulder.left {
+    left: -13px;
+}
+
+.robot-shoulder.right {
+    right: -13px;
+}
+
+.robot-chest {
+    position: absolute;
+    top: 24px;
+    left: 28px;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 48px;
+    border: 2px solid #607f9f;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #12243d, #091426);
+    box-shadow: inset 0 0 12px #40e8ff18;
+}
+
+.robot-core-ring {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border: 2px solid #40e8ff85;
+    border-radius: 50%;
+    animation: coreRotate 7s linear infinite;
+}
+
+.robot-core {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 9px var(--cyan), 0 0 22px #40e8ff;
+    animation: corePulse 1.8s infinite;
+}
+
+/* ARMS */
+
+.robot-arm {
+    position: absolute;
+    z-index: 2;
+    top: 125px;
+    width: 37px;
+    height: 105px;
+    transform-origin: 50% 12px;
+}
+
+.robot-arm-left {
+    left: 34px;
+    transform: rotate(13deg);
+}
+
+.robot-arm-right {
+    left: 159px;
+    transform: rotate(-18deg);
+}
+
+.robot-upper-arm,
+.robot-forearm {
+    position: absolute;
+    left: 8px;
+    width: 21px;
+    border: 2px solid #a9c7e6;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #6d83a1, #edf5ff 45%, #91a8c5);
+    box-shadow: inset 0 2px 4px #ffffff;
+}
+
+.robot-upper-arm {
+    top: 12px;
+    height: 36px;
+}
+
+.robot-elbow {
+    position: absolute;
+    top: 43px;
+    left: 5px;
+    width: 27px;
+    height: 27px;
+    border: 2px solid #bdd5ed;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f5f9ff, #7589a7 75%);
+}
+
+.robot-forearm {
+    top: 63px;
+    left: 8px;
+    height: 30px;
+}
+
+.robot-hand {
+    position: absolute;
+    top: 84px;
+    left: 3px;
+    width: 32px;
+    height: 27px;
+    border: 2px solid #bed5ef;
+    border-radius: 10px 10px 12px 12px;
+    background: linear-gradient(135deg, #f3f8ff, #859ab6);
+}
+
+.robot-hand span {
+    position: absolute;
+    top: -8px;
+    width: 5px;
+    height: 14px;
+    border: 1px solid #bdd5ed;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #8298b5, #edf5ff);
+}
+
+.robot-hand span:nth-child(1) {
+    left: 2px;
+}
+
+.robot-hand span:nth-child(2) {
+    left: 9px;
+    top: -12px;
+    height: 17px;
+}
+
+.robot-hand span:nth-child(3) {
+    left: 16px;
+    top: -13px;
+    height: 18px;
+}
+
+.robot-hand span:nth-child(4) {
+    left: 23px;
+}
+
+/* HIPS AND LEGS */
+
+.robot-hip {
+    position: absolute;
+    z-index: 2;
+    top: 211px;
+    left: 79px;
+    width: 73px;
+    height: 24px;
+    border: 2px solid #a9c7e6;
+    border-radius: 8px 8px 13px 13px;
+    background: linear-gradient(90deg, #7e93af, #eff6ff, #8096b2);
+}
+
+.robot-leg {
+    position: absolute;
+    z-index: 1;
+    top: 226px;
+    width: 39px;
+    height: 95px;
+}
+
+.robot-leg-left {
+    left: 79px;
+}
+
+.robot-leg-right {
+    left: 116px;
+}
+
+.robot-thigh,
+.robot-shin {
+    position: absolute;
+    left: 4px;
+    width: 30px;
+    border: 2px solid #a9c7e6;
+    background: linear-gradient(90deg, #7489a6, #edf5ff 42%, #8da3c0);
+}
+
+.robot-thigh {
+    top: 0;
+    height: 40px;
+    border-radius: 8px 8px 10px 10px;
+}
+
+.robot-knee {
+    position: absolute;
+    top: 35px;
+    left: 3px;
+    width: 32px;
+    height: 20px;
+    border: 2px solid #c8def4;
+    border-radius: 7px;
+    background: linear-gradient(135deg, #edf5ff, #7c91ad);
+}
+
+.robot-shin {
+    top: 51px;
+    height: 29px;
+    border-radius: 7px;
+}
+
+.robot-foot {
+    position: absolute;
+    top: 76px;
+    left: -2px;
+    width: 41px;
+    height: 17px;
+    border: 2px solid #c1d9f1;
+    border-radius: 8px 8px 5px 5px;
+    background: linear-gradient(135deg, #eef6ff, #8298b5);
+}
+
+/* ROBOT INTRODUCTION */
+
+.robot-introduction {
+    margin-top: 8px;
+    text-align: center;
+}
+
+.robot-greeting {
+    margin: 0 0 8px;
+}
+
+.robot-introduction h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 750;
+    letter-spacing: -0.5px;
+}
+
+.robot-introduction h2 span {
+    color: var(--cyan);
+}
+
+.robot-description {
+    max-width: 340px;
+    margin: 10px auto 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.robot-features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.robot-features span {
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: #ffffff04;
+    color: #b7c8e3;
+    font-size: 10px;
+}
+
+/* CHAT PANEL */
+
+.chat-panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 720px;
+}
+
+.chat-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.chat-heading-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.chat-heading-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    font-size: 20px;
+}
+
+.chat-heading h2 {
+    margin: 0;
+    font-size: 17px;
+}
+
+.chat-heading p {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.chat-heading-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    color: #8ea3c2;
+    font-size: 10px;
+}
+
+.clear-button {
+    flex-shrink: 0;
+    padding: 9px 11px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #ffffff04;
+    color: #bdcbe2;
+    font-size: 11px;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.clear-button:hover {
+    border-color: #40e8ff55;
+    background: #40e8ff0d;
+}
+
+.clear-button span {
+    margin-right: 4px;
+    color: var(--cyan);
+}
+
+/* MESSAGE AREA */
+
+.chat-messages {
+    flex: 1;
+    min-height: 350px;
+    max-height: 520px;
+    overflow-y: auto;
+    padding: 24px 20px;
+    scroll-behavior: smooth;
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: #354665;
+}
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    margin-bottom: 22px;
+}
+
+.message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.user-message {
+    flex-direction: row-reverse;
+}
+
+.user-message .message-avatar {
+    background: linear-gradient(135deg, #a77cff, #688bff);
+}
+
+.message-content {
+    max-width: 85%;
+    padding: 14px 15px;
+    border: 1px solid var(--border);
+    border-radius: 4px 15px 15px 15px;
+    background: #ffffff05;
+}
+
+.user-message .message-content {
+    border-color: #7b79ff30;
+    border-radius: 15px 4px 15px 15px;
+    background: linear-gradient(135deg, #6f69ff16, #40a9ff0c);
+}
+
+.message-name {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--cyan);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.user-message .message-name {
+    color: #b6a1ff;
+}
+
+.message-content p {
+    margin: 0;
+    color: #d7e1f2;
+    font-size: 13px;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+/* INPUT AREA */
+
+.chat-input-area {
+    padding: 18px 20px 20px;
+    border-top: 1px solid var(--border);
+    background: #080e1a70;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 9px;
+}
+
+.chat-form {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px;
+    border: 1px solid #46577570;
+    border-radius: 15px;
+    background: #0a1120;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.chat-form:focus-within {
+    border-color: #40e8ff75;
+    box-shadow: 0 0 0 3px #40e8ff0a;
+}
+
+.chat-form input {
+    width: 100%;
+    min-width: 0;
+    padding: 11px 9px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.chat-form input::placeholder {
+    color: #71819f;
+}
+
+.mic-button,
+.send-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-height: 40px;
+    border: none;
+    border-radius: 10px;
+}
+
+.mic-button {
+    width: 42px;
+    border: 1px solid #40e8ff28;
+    background: #40e8ff0b;
+    color: var(--cyan);
+    font-size: 18px;
+    transition: background 0.2s;
+}
+
+.mic-button:hover {
+    background: #40e8ff20;
+}
+
+.mic-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+.send-button {
+    gap: 9px;
+    padding: 0 16px;
+    background: linear-gradient(135deg, #42ddf4, #6583ff);
+    color: #081324;
+    font-size: 12px;
+    font-weight: 800;
+    box-shadow: 0 5px 18px #40bfff18;
+    transition: transform 0.2s, filter 0.2s;
+}
+
+.send-button:hover {
+    filter: brightness(1.12);
+    transform: translateY(-1px);
+}
+
+.send-button:disabled {
+    cursor: wait;
+    opacity: 0.6;
+    transform: none;
+}
+
+.chat-note {
+    margin: 14px 0 0;
+    color: #7585a2;
+    font-size: 10px;
+    text-align: center;
+}
+
+.chat-note span {
+    color: var(--cyan);
+}
+
+/* FOOTER */
+
+.app-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 2px 4px;
+    color: #62718e;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+}
+
+/* ANIMATIONS */
+
+@keyframes robotFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        opacity: 0.55;
+        transform: scale(0.92);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.08);
+    }
+}
+
+@keyframes antennaPulse {
+    0%, 100% {
+        box-shadow: 0 0 10px var(--cyan);
+    }
+
+    50% {
+        box-shadow: 0 0 22px var(--cyan), 0 0 34px #40e8ff55;
+    }
+}
+
+@keyframes eyeGlow {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.65;
+    }
+}
+
+@keyframes corePulse {
+    0%, 100% {
+        transform: scale(0.9);
+        box-shadow: 0 0 8px var(--cyan);
+    }
+
+    50% {
+        transform: scale(1.12);
+        box-shadow: 0 0 15px var(--cyan), 0 0 25px #40e8ff80;
+    }
+}
+
+@keyframes coreRotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* TABLETS */
+
+@media (max-width: 1000px) {
+    .app {
+        padding: 20px;
+    }
+
+    .workspace {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .robot-stage {
+        height: 355px;
+    }
+
+    .chat-panel {
+        min-height: 600px;
+    }
+}
+
+/* MOBILE */
+
+@media (max-width: 520px) {
+    .app {
+        padding: 12px;
+    }
+
+    .topbar {
+        padding-bottom: 16px;
+    }
+
+    .brand-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .brand-text h1 {
+        font-size: 19px;
+    }
+
+    .status {
+        gap: 6px;
+        padding: 8px;
+        font-size: 10px;
+    }
+
+    .workspace {
+        gap: 14px;
+        margin-top: 15px;
+    }
+
+    .robot-panel {
+        padding: 17px;
+    }
+
+    .robot-stage {
+        height: 345px;
+        overflow: hidden;
+    }
+
+    .robot-full {
+        transform: scale(0.94);
+    }
+
+    .robot-introduction h2 {
+        font-size: 24px;
+    }
+
+    .chat-heading {
+        padding: 16px 13px;
+    }
+
+    .chat-heading h2 {
+        font-size: 15px;
+    }
+
+    .chat-heading-avatar {
+        width: 37px;
+        height: 37px;
+    }
+
+    .clear-button {
+        padding: 8px;
+    }
+
+    .chat-messages {
+        min-height: 300px;
+        padding: 18px 12px;
+    }
+
+    .chat-input-area {
+        padding: 14px 11px;
+    }
+
+    .chat-form {
+        gap: 5px;
+    }
+
+    .chat-form input {
+        padding-left: 5px;
+        font-size: 11px;
+    }
+
+    .mic-button {
+        width: 36px;
+    }
+
+    .send-button {
+        gap: 5px;
+        padding: 0 10px;
+        font-size: 11px;
+    }
+
+    .app-footer {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+/* ROBOMIND SPEAKING AND HAND-WAVING ANIMATION */
+
+.robot-full.robot-speaking {
+    animation: robotSpeaking 1.8s ease-in-out infinite;
+}
+
+.robot-full .robot-arm-right.robot-waving {
+    animation: robotHandWave 0.65s ease-in-out infinite alternate;
+    transform-origin: 50% 12px;
+}
+
+.robot-full.robot-speaking .robot-core {
+    animation: speakingCorePulse 0.45s ease-in-out infinite alternate;
+}
+
+.robot-full.robot-speaking .robot-mouth {
+    animation: speakingMouth 0.3s ease-in-out infinite alternate;
+}
+
+.voice-wave.voice-wave-active span {
+    animation: voiceBars 0.45s ease-in-out infinite alternate;
+}
+
+.voice-wave.voice-wave-active span:nth-child(2) {
+    animation-delay: 0.12s;
+}
+
+.voice-wave.voice-wave-active span:nth-child(3) {
+    animation-delay: 0.24s;
+}
+
+.voice-wave.voice-wave-active span:nth-child(4) {
+    animation-delay: 0.08s;
+}
+
+.voice-wave.voice-wave-active span:nth-child(5) {
+    animation-delay: 0.18s;
+}
+
+@keyframes robotHandWave {
+    from {
+        transform: rotate(-18deg);
+    }
+
+    to {
+        transform: rotate(-105deg);
+    }
+}
+
+@keyframes robotSpeaking {
+    0%, 100% {
+        translate: 0 0;
+    }
+
+    50% {
+        translate: 0 -4px;
+    }
+}
+
+@keyframes speakingCorePulse {
+    from {
+        transform: scale(0.85);
+        box-shadow: 0 0 8px #40e8ff;
+    }
+
+    to {
+        transform: scale(1.25);
+        box-shadow: 0 0 24px #40e8ff, 0 0 38px #40e8ff88;
+    }
+}
+
+@keyframes speakingMouth {
+    from {
+        transform: scaleY(1);
+    }
+
+    to {
+        transform: scaleY(2.2);
+    }
+}
+
+@keyframes voiceBars {
+    from {
+        height: 5px;
+        opacity: 0.5;
+    }
+
+    to {
+        height: 23px;
+        opacity: 1;
+    }
+}
+
+/* ROBOMIND NATURAL EYE AND HEAD ANIMATIONS */
+
+.robot-full .robot-head {
+    animation: robotHeadMove 5s ease-in-out infinite;
+    transform-origin: 50% 100%;
+}
+
+.robot-full .robot-eyes span {
+    animation: robotBlink 4s infinite;
+    transform-origin: center;
+}
+
+.robot-full .robot-eyes span:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+@keyframes robotHeadMove {
+    0%, 100% {
+        rotate: 0deg;
+    }
+
+    25% {
+        rotate: 2deg;
+    }
+
+    55% {
+        rotate: 0deg;
+    }
+
+    75% {
+        rotate: -2deg;
+    }
+}
+
+@keyframes robotBlink {
+    0%, 43%, 47%, 100% {
+        transform: scaleY(1);
+    }
+
+    45% {
+        transform: scaleY(0.12);
+    }
+}
+
+/* ROBOMIND THINKING INDICATOR */
+
+.thinking-message .message-content p {
+    color: #40e8ff;
+    animation: thinkingFade 1.2s ease-in-out infinite;
+}
+
+.thinking-message .message-name::after {
+    content: " ·";
+    color: #40e8ff;
+}
+
+.thinking-message .message-content p::after {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    text-align: left;
+    animation: thinkingDots 1.2s steps(4, end) infinite;
+}
+
+@keyframes thinkingDots {
+    0% {
+        content: "";
+    }
+
+    25% {
+        content: ".";
+    }
+
+    50% {
+        content: "..";
+    }
+
+    75%, 100% {
+        content: "...";
+    }
+}
+
+@keyframes thinkingFade {
+    0%, 100% {
+        opacity: 0.55;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+/* ===== NEW ROBOMIND CUTE ROBOT ===== */
+
+.cute-robot {
+    position: relative;
+    width: 240px;
+    height: 330px;
+    margin: 20px auto;
+    animation: cuteRobotFloat 3s ease-in-out infinite;
+}
+
+.cute-antenna {
+    position: absolute;
+    top: 0;
+    left: 112px;
+    width: 5px;
+    height: 29px;
+    background: #8da9c8;
+    border-radius: 5px;
+}
+
+.cute-antenna span {
+    position: absolute;
+    top: -9px;
+    left: -5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #45d9ff;
+    box-shadow: 0 0 15px #45d9ff;
+}
+
+.cute-ear {
+    position: absolute;
+    top: 62px;
+    width: 19px;
+    height: 35px;
+    border-radius: 10px;
+    background: #83a7c9;
+    border: 3px solid #d8eaff;
+}
+
+.cute-ear-left { left: 24px; }
+.cute-ear-right { right: 24px; }
+
+.cute-head {
+    position: absolute;
+    top: 27px;
+    left: 36px;
+    width: 168px;
+    height: 115px;
+    border-radius: 43px;
+    background: linear-gradient(145deg, #ffffff, #c9e3f8);
+    border: 3px solid #82b9e8;
+    box-shadow: 0 8px 22px #3b82a633, inset 0 3px 8px #ffffff;
+    z-index: 2;
+}
+
+.cute-eye {
+    position: absolute;
+    top: 43px;
+    width: 20px;
+    height: 25px;
+    border-radius: 50%;
+    background: #168bc5;
+    box-shadow: 0 0 10px #43caff;
+}
+
+.cute-eye-left { left: 37px; }
+.cute-eye-right { right: 37px; }
+
+.cute-cheek {
+    position: absolute;
+    top: 73px;
+    width: 17px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff9bb4;
+    opacity: 0.8;
+}
+
+.cute-cheek-left { left: 19px; }
+.cute-cheek-right { right: 19px; }
+
+.cute-smile {
+    position: absolute;
+    left: 69px;
+    top: 76px;
+    width: 25px;
+    height: 12px;
+    border-bottom: 3px solid #3e7ea8;
+    border-radius: 0 0 50% 50%;
+}
+
+.cute-neck {
+    position: absolute;
+    top: 139px;
+    left: 101px;
+    width: 38px;
+    height: 20px;
+    background: #8bb7d9;
+    border-radius: 6px;
+}
+
+.cute-body {
+    position: absolute;
+    top: 151px;
+    left: 55px;
+    width: 130px;
+    height: 102px;
+    border-radius: 28px 28px 35px 35px;
+    background: linear-gradient(145deg, #ffffff, #b9d9f1);
+    border: 3px solid #82b9e8;
+    box-shadow: inset 0 4px 9px #ffffff;
+    z-index: 2;
+}
+
+.cute-chest-light {
+    position: absolute;
+    top: 24px;
+    left: 45px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #b9f4ff;
+    border: 4px solid #65bfe7;
+    box-shadow: 0 0 15px #54d9ff;
+}
+
+.cute-chest-dot {
+    position: absolute;
+    top: 36px;
+    left: 57px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #168bc5;
+}
+
+.cute-arm {
+    position: absolute;
+    top: 165px;
+    width: 30px;
+    height: 76px;
+    border-radius: 18px;
+    background: linear-gradient(90deg, #9fc6e5, #e8f5ff);
+    border: 2px solid #82b9e8;
+    z-index: 1;
+}
+
+.cute-arm-left {
+    left: 30px;
+    transform: rotate(12deg);
+}
+
+.cute-arm-right {
+    right: 30px;
+    transform: rotate(-12deg);
+    transform-origin: top center;
+    animation: cuteRobotWave 1.5s ease-in-out infinite;
+}
+
+.cute-hand {
+    position: absolute;
+    bottom: -12px;
+    left: -3px;
+    width: 30px;
+    height: 25px;
+    border-radius: 50%;
+    background: #d9edfc;
+    border: 2px solid #82b9e8;
+}
+
+.cute-leg {
+    position: absolute;
+    top: 246px;
+    width: 36px;
+    height: 51px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #9fc6e5, #e8f5ff);
+    border: 2px solid #82b9e8;
+}
+
+.cute-leg-left { left: 75px; }
+.cute-leg-right { right: 75px; }
+
+.cute-foot {
+    position: absolute;
+    bottom: -7px;
+    left: -8px;
+    width: 49px;
+    height: 20px;
+    border-radius: 12px 12px 8px 8px;
+    background: #6d9fc8;
+    border: 2px solid #b9dcf5;
+}
+
+.cute-shadow {
+    position: absolute;
+    bottom: 0;
+    left: 40px;
+    width: 160px;
+    height: 16px;
+    border-radius: 50%;
+    background: #3b82a633;
+    filter: blur(7px);
+    z-index: -1;
+}
+
+@keyframes cuteRobotFloat {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -7px; }
+}
+
+@keyframes cuteRobotWave {
+    0%, 100% { rotate: 0deg; }
+    50% { rotate: -28deg; }
+}
+
+/* ===== RoboMind Centered Modern Layout ===== */
+
+.app {
+    width: min(1440px, 100%);
+    margin: 0 auto;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.topbar {
+    margin-bottom: 24px;
+}
+
+.workspace {
+    display: grid;
+    grid-template-columns: minmax(320px, 0.9fr) minmax(400px, 1.1fr);
+    gap: 24px;
+    align-items: stretch;
+}
+
+.robot-panel,
+.chat-panel {
+    min-width: 0;
+    box-sizing: border-box;
+    border: 1px solid rgba(125, 190, 255, 0.2);
+    border-radius: 24px;
+    background: rgba(17, 28, 48, 0.78);
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+}
+
+/* Center the existing robot without changing its design */
+.robot-stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.cute-robot {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Center the introduction beneath the robot */
+.robot-introduction {
+    text-align: center;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.feature-tags {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 20px;
+}
+
+/* Keep the chat usable and the input visible */
+.chat-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-messages {
+    flex: 1;
+    min-height: 280px;
+}
+
+.chat-input-area {
+    margin-top: auto;
+}
+
+/* Tablet and mobile layout */
+@media (max-width: 850px) {
+    .app {
+        padding: 14px;
+    }
+
+    .workspace {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .robot-panel,
+    .chat-panel {
+        width: 100%;
+    }
+
+    .robot-stage {
+        min-height: 320px;
+    }
+
+    .chat-messages {
+        min-height: 260px;
+    }
+}
+
+@media (max-width: 480px) {
+    .app {
+        padding: 10px;
+    }
+
+    .robot-panel,
+    .chat-panel {
+        border-radius: 18px;
+    }
+
+    .robot-introduction {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+}
+
